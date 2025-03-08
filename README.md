@@ -27,3 +27,8 @@
     * [项目地址](https://github.com/NovaConnect/FProperties)
     * 使用更现代的Fluent3 UI重构的文件资源管理器属性页面。
     * 支持 云母/亚克力 主题与暗黑模式。
+
+## 联系我
+* Email: [NovaConnect-ZH@HotMail.com](mailto:NovaConnect-ZH@HotMail.com)
+* Telegram: [@SmaZone](https://t.me/SmaZone)
+* X: [@Sm4Z0n3](https://x.com/Sm4Z0n3)

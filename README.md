@@ -1,8 +1,6 @@
-### 小破开源组织
-# NovaConnect | 新星互联 主页
-
 <div align=center>
-   <img style="border-radius:25px" src="logo.jpg" width="280" height="280"/>
+   <img style="border-radius:225px" src="logo.jpg" width="280" height="280"/>
+   <h1>NovaConnect</h1>
 </div>
 
 ## 联系我

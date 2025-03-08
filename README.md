@@ -1,6 +1,10 @@
 ### 小破开源组织
 # NovaConnect | 新星互联 主页
 
+<div align=center>
+   <img style="border-radius:12px" src="logo.jpg" width="280" height="280"/>
+</div>
+
 ## 产品概览
 
 * **NovaRAT 4.0 (产品远控服务端)**：

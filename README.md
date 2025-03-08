@@ -30,3 +30,7 @@
     * [项目地址](https://github.com/NovaConnect/FProperties)
     * 使用更现代的Fluent3 UI重构的文件资源管理器属性页面。
     * 支持 云母/亚克力 主题与暗黑模式。
+* **HotRAT-Nextgen（WPF + FluentUI编写的C#远控软件）**：
+    * [项目地址](https://github.com/SmaZone2020/HotRAT-Nextgen)
+    * 基于 HotRAT 进行二次开发的一个免费开源的远程控制项目。
+    * 为用户提供了一套功能强大的远程控制工具，支持设备信息获取、文件管理、屏幕监控等

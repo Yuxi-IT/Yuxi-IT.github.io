@@ -2,7 +2,7 @@
 # NovaConnect | 新星互联 主页
 
 <div align=center>
-   <img style="border-radius:12px" src="logo.jpg" width="280" height="280"/>
+   <img style="border-radius:25px" src="logo.jpg" width="280" height="280"/>
 </div>
 
 ## 产品概览

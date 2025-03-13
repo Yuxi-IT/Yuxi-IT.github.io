@@ -1,7 +1,7 @@
 <div align=center>
    <img style="border-radius:225px" src="logo.jpg" width="280" height="280"/>
-   <h1>Yuxi IT</h1>
-   <h1>西安余兮信息技术有限公司</h1>
+   <h1>Yuxi IT | 西安余兮信息技术有限公司</h1>
+   
 </div>
 
 ## 联系我

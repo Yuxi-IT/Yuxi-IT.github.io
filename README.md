@@ -1,6 +1,6 @@
 <div align=center>
    <img style="border-radius:225px" src="logo.jpg" width="280" height="280"/>
-   <h1>NovaConnect</h1>
+   <h1>Yuxi IT</h1>
 </div>
 
 ## 联系我

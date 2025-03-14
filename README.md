@@ -6,8 +6,6 @@
 
 ## 联系我
 * Email: [NovaConnect-ZH@HotMail.com](mailto:NovaConnect-ZH@HotMail.com)
-* Telegram: [@SmaZone](https://t.me/SmaZone)
-* X: [@Sm4Z0n3](https://x.com/Sm4Z0n3)
 
 ## 产品概览
 

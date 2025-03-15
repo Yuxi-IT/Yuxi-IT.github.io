@@ -1,0 +1,37 @@
+[
+    {
+        "name":"易供需",
+        "description":"连接供需双方，高效匹配资源与需求的交易保障平台",
+        "process":0,
+        "url":"",
+        "img":"/images/suppylink.jpeg"
+    },    
+    {
+        "name":"NovaPanel",
+        "description":"专为 Windows Server 设计的 Web 运维面板",
+        "process":1,
+        "url":"https://github.com/Yuxi-IT/NovaPanel",
+        "img":"/images/novapanel.jpeg"
+    },    
+    {
+        "name":"NovaMAUI",
+        "description":"MAUI+Blazor+ShadcnUI构建的跨平台应用程序框架",
+        "process":1,
+        "url":"https://github.com/Yuxi-IT/NovaMAUI",
+        "img":"/images/novamaui.jpeg"
+    },    
+    {
+        "name":"NovaRAT 4.0",
+        "description":"一款功能强大的远程控制服务端软件，安全、高效地管理远程设备",
+        "process":1,
+        "url":"https://github.com/Yuxi-IT/HotRAT4.0",
+        "img":"/images/hotrat.jpeg"
+    },    
+    {
+        "name":"HotRAT-Nextgen",
+        "description":"基于 HotRAT 进行二次开发的一个免费开源的远程控制项目",
+        "process":2,
+        "url":"https://github.com/SmaZone2020/HotRAT-Nextgen",
+        "img":"/images/hotrat2.jpeg"
+    }
+]

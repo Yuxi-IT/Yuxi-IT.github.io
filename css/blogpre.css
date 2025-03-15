@@ -1,0 +1,12 @@
+.header{
+    margin-bottom: 20px;
+}
+.header .t{
+    color: rgb(173, 173, 173)
+}
+.header .c{
+    color: gray
+}
+.header h3{
+    font-size: 1.6rem
+}

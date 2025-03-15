@@ -1,12 +1,15 @@
 <div align=center>
    <img style="border-radius:225px" src="logo.jpg" width="280" height="280"/>
-   <h1>NovaConnect</h1>
+   <h1>
+    <a href="https://www.yuxiit.com.cn">
+     Yuxi IT | 西安余兮信息技术有限公司
+    </a>
+   </h1>
+   
 </div>
 
 ## 联系我
 * Email: [NovaConnect-ZH@HotMail.com](mailto:NovaConnect-ZH@HotMail.com)
-* Telegram: [@SmaZone](https://t.me/SmaZone)
-* X: [@Sm4Z0n3](https://x.com/Sm4Z0n3)
 
 ## 产品概览
 

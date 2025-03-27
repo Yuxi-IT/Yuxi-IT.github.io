@@ -7,6 +7,13 @@
         "img":"/images/suppylink.jpeg"
     },    
     {
+        "name":"IntelliHub",
+        "description":"一款功能强大的AI Agent工具，可以连接到云端大模型并调用本地工具。",
+        "process":1,
+        "url":"https://github.com/Yuxi-IT/IntelliHub",
+        "img":"/images/intellihub.jpeg"
+    },   
+    {
         "name":"NovaPanel",
         "description":"专为 Windows Server 设计的 Web 运维面板",
         "process":1,

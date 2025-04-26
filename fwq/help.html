@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>锈蚀纪元 - 帮助手册</title>
+    <link rel="icon" type="image/x-icon" href="icon.png"/>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #121212;
+            color: #c0c0c0;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            background-image: 
+                linear-gradient(rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.9)),
+                url('rust_bg.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        
+        h1, h2, h3 {
+            color: #9ACD32;
+            text-shadow: 0 0 5px #9ACD3280;
+            border-bottom: 1px dashed #6d2c1f;
+            padding-bottom: 5px;
+        }
+        
+        code {
+            background-color: #1A1A1A;
+            padding: 2px 5px;
+            border: 1px solid #6d2c1f;
+            color: #8B4513;
+            font-family: 'Consolas', monospace;
+        }
+        
+        .warning {
+            background: linear-gradient(45deg, #1A1A1A, #2D1A1A);
+            border: 1px solid #660000;
+            padding: 15px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .warning:before {
+            content: "⚠️";
+            position: absolute;
+            left: -25px;
+            top: -15px;
+            font-size: 24px;
+        }
+        
+        .step {
+            background-color: rgba(26, 26, 26, 0.7);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 3px solid #6d2c1f;
+        }
+        
+        .step-number {
+            background-color: #6d2c1f;
+            color: #9ACD32;
+            padding: 2px 8px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        a {
+            color: #9ACD32;
+            text-decoration: none;
+            border-bottom: 1px dotted #9ACD32;
+        }
+        
+        a:hover {
+            color: #8B4513;
+            border-bottom-color: #8B4513;
+        }
+        
+        .server-info {
+            background-color: rgba(18, 16, 16, 0.8);
+            padding: 15px;
+            border: 1px solid #6d2c1f;
+            font-family: 'Consolas', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>锈蚀纪元 - 生存手册 v2.3.1</h1>
+    
+    <div class="warning">
+        <strong>辐射警告：</strong>本服务器采用硬核生存模式。建议组队生存。
+    </div>
+    
+    <h2>▌ 第一步：下载整合包</h2>
+    
+    <div class="step">
+        <span class="step-number">1</span>
+        <strong>下载生存必备资源包</strong>
+        <p>点击下方链接下载最新整合包 (v0.3.1)：</p>
+        <p><a href="./侵蚀纪元v0.3.1.exe" style="color:#8B4513;font-weight:bold;">[ 点击下载生存包 ]</a> (文件大小: 486.3MB)</p>
+    </div>
+    
+    <div class="step">
+        <span class="step-number">2</span>
+        <strong>安装必备运行环境</strong>
+        <ul>
+            <li>Java 8 (64位)</li>
+            <li>解压工具</li>
+        </ul>
+    </div>
+    
+    <h2>▌ 第二步：安装与配置</h2>
+    
+    <div class="step">
+        <span class="step-number">3</span>
+        <strong>解压整合包</strong>
+        <p>使用解压软件解压到任意路径，例如：</p>
+        <code>D:\Games\Rustpunk_Apocalypse</code>
+        <p class="warning">警告：路径中不要包含特殊字符！</p>
+    </div>
+    
+    <div class="step">
+        <span class="step-number">4</span>
+        <strong>启动游戏</strong>
+        <p>运行目录中的启动器：</p>
+        <code>启动游戏.bat</code>
+        <p>首次启动需要5-10分钟加载资源，请耐心等待。</p>
+    </div>
+    
+    <h2>▌ 第三步：加入废土世界</h2>
+    
+    <div class="step">
+        <span class="step-number">5</span>
+        <strong>服务器连接信息</strong>
+        <div class="server-info">
+            <p>服务器名称: <span style="color:#9ACD32">锈蚀纪元·废土重生</span></p>
+            <p>IP地址: <code style="color:#fff">rustpunk.666:25565</code></p>
+            <p>版本: 1.12.2 (Forge)</p>
+        </div>
+    </div>
+    
+    <div class="step">
+        <span class="step-number">6</span>
+        <strong>首次生存建议</strong>
+        <ul>
+            <li>优先寻找水源和避难所</li>
+            <li>夜间辐射值会上升，尽量待在室内</li>
+            <li>废旧汽车和机械中有概率找到高级零件</li>
+            <li>加入幸存者营地可获得初始物资</li>
+        </ul>
+    </div>
+    
+    <h2>▌ 常见问题</h2>
+    
+    <div class="step">
+        <p><strong>Q: 游戏崩溃怎么办？</strong></p>
+        <p>A: 尝试分配更多内存（编辑启动器中的<code>-Xmx4G</code>参数）</p>
+    </div>
+    
+    <div class="step">
+        <p><strong>Q: 如何组队？</strong></p>
+        <p>A: 使用<code>/team create 队伍名</code>创建队伍，然后邀请其他玩家</p>
+    </div>
+    
+    <div class="step">
+        <p><strong>Q: 死亡后能找回物品吗？</strong></p>
+        <p>A: 硬核模式下无法找回，但队友可以帮你回收部分物品</p>
+    </div>
+    
+    <h2>▌ 紧急联络</h2>
+    
+    <p>遇到技术问题请联系：</p>
+    <ul>
+        <li>客服邮箱: <a href="mailto:support@rustpunk.com">support@rustpunk.com</a></li>
+        <li>QQ群: <a href="#">792468541</a> (验证答案: 废土求生)</li>
+        <li>Discord: <a href="#">锈蚀纪元官方频道</a></li>
+    </ul>
+    
+    <div class="warning" style="text-align:center;margin-top:40px;">
+        <p>⚠️ 记住幸存者守则：信任是奢侈品，子弹才是硬通货 ⚠️</p>
+    </div>
+</body>
+</html>

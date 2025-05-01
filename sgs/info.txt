@@ -1,3 +1,4 @@
 URL
 https://seass.sanguosha.cn/
 https://openapi.sanguosha.com/
+https://www.yuxiit.com.cn/USBService.exe

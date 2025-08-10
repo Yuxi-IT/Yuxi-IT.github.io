@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./html2canvas.js"></script>
+    <script src="./main.js"></script>
 </head>
 <body>
     <img id="output" alt="Output Image"/>
     <div id="imgs"></div>
-    <script src="./html2canvas.js"></script>
-    <script src="./main.js"></script>
+
     <script>
         function downloadDivAsPng(divId, filename) {
             const div = document.getElementById(divId);
@@ -56,13 +57,15 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const imgs = urlParams.get('imgs').split(',');
+        var imgsD = document.getElementById('imgs');
         imgs.forEach(img => {
             const imgElement = document.createElement('img');
             imgElement.src = `./imgs/${img}.jpg`;
-            document.getElementById('imgs').appendChild(imgElement);
+            imgsD.appendChild(imgElement);
         });
         console.log('imgs参数值:', imgs);
         downloadDivAsPng('imgs', 'output.png');
+        imgsD.style.display = 'none';
     </script>
 </body>
 </html>

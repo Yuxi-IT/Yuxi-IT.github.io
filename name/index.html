@@ -56,14 +56,13 @@
         }
 
         const urlParams = new URLSearchParams(window.location.search);
-        const imgs = urlParams.get('imgs').split(',');
+        const imgs = btoa(urlParams.get('imgs')).split(',');
         var imgsD = document.getElementById('imgs');
         imgs.forEach(img => {
             const imgElement = document.createElement('img');
             imgElement.src = `./imgs/${img}.jpg`;
             imgsD.appendChild(imgElement);
         });
-        console.log('imgs参数值:', imgs);
         downloadDivAsPng('imgs', 'output.png');
         imgsD.style.display = 'none';
     </script>

@@ -58,6 +58,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const imgs = atob(urlParams.get('imgs')).split(',');
         var imgsD = document.getElementById('imgs');
+        imgsD.style.width = imgs.length * 282 + 'px';
         imgs.forEach(img => {
             const imgElement = document.createElement('img');
             imgElement.src = `./imgs/${img}.jpg`;

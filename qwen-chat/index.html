@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Qwen Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3B82F6",
+            ai: "#F1F5F9",
+            user: "#3B82F6"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-100 h-screen flex flex-col">
+
+<!-- 顶部 -->
+<header class="bg-white shadow px-4 py-3 flex items-center justify-between">
+  <h1 class="font-semibold text-lg text-primary">Qwen Chat</h1>
+  <span id="sessionInfo" class="text-xs text-gray-500"></span>
+</header>
+
+<!-- 聊天区 -->
+<main id="chatList"
+  class="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin">
+</main>
+
+<!-- 输入区 -->
+<footer class="bg-white border-t px-3 py-2 sticky bottom-0">
+  <div class="flex items-end gap-2">
+    <textarea
+      id="input"
+      rows="1"
+      placeholder="输入消息..."
+      class="flex-1 resize-none px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+    ></textarea>
+    <button
+      onclick="sendMessage()"
+      class="bg-primary text-white px-4 py-2 rounded-md"
+    >
+      发送
+    </button>
+  </div>
+</footer>
+
+<script>
+  let baseUrl = "";
+  let auth = "";
+  let sessionId = null;
+
+  const chatList = document.getElementById("chatList");
+  const input = document.getElementById("input");
+
+  /* ================= 工具 ================= */
+
+  function getQuery(name) {
+    return new URLSearchParams(location.search).get(name);
+  }
+
+  function scrollBottom() {
+    chatList.scrollTop = chatList.scrollHeight;
+  }
+
+  function addBubble(text, role) {
+    const div = document.createElement("div");
+    div.className =
+      role === "user"
+        ? "flex justify-end"
+        : "flex justify-start";
+
+    div.innerHTML = `
+      <div class="
+        max-w-[80%]
+        whitespace-pre-wrap
+        px-4 py-2 rounded-lg text-sm
+        ${role === "user"
+          ? "bg-user text-white rounded-br-none"
+          : "bg-ai text-gray-800 rounded-bl-none"}
+      ">
+        ${text}
+      </div>
+    `;
+    chatList.appendChild(div);
+    scrollBottom();
+    return div.querySelector("div");
+  }
+
+  /* ================= API ================= */
+
+  async function createSession() {
+    const res = await fetch(`${baseUrl}/Main/sessions`, {
+      method: "POST",
+      headers: { Auth: auth }
+    });
+    const json = await res.json();
+    sessionId = json.Id;
+    document.getElementById("sessionInfo").textContent =
+      `Session: ${sessionId}`;
+  }
+
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = "";
+    addBubble(text, "user");
+
+    const aiBubble = addBubble("", "ai");
+
+    const res = await fetch(
+      `${baseUrl}/Main/sessions/${sessionId}/messages`,
+      {
+        method: "POST",
+        headers: {
+          "Auth": auth,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ Content: text })
+      }
+    );
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let result = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      result += decoder.decode(value, { stream: true });
+      aiBubble.textContent = result;
+      scrollBottom();
+    }
+  }
+
+  /* ================= 初始化 ================= */
+
+  window.onload = async () => {
+    baseUrl = getQuery("host") || "http://localhost:5000";
+    auth = getQuery("auth");
+
+    if (!auth) {
+      alert("请通过 ?auth=xxx 提供认证密钥");
+      return;
+    }
+
+    await createSession();
+  };
+
+  /* 回车发送（手机友好） */
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+</script>
+
+</body>
+</html>

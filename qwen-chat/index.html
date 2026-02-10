@@ -76,23 +76,6 @@ function addMessageBubble(side){
     return { bubble, analysis };
 }
 
-// 🔥 核心：拆分最后一行
-function splitAnalysis(text){
-    const lines = text.trim().split("\n");
-    if(lines.length <= 1) return { visible:text, analysis:"" };
-
-    const lastLine = lines[lines.length - 1].trim();
-
-    if(lastLine.startsWith("[AI指数")){
-        return {
-            visible: lines.slice(0, -1).join("\n"),
-            analysis: lastLine
-        };
-    }
-
-    return { visible:text, analysis:"" };
-}
-
 async function streamToBubble(sessionId, content, side){
     const { bubble, analysis } = addMessageBubble(side);
 
@@ -117,16 +100,10 @@ async function streamToBubble(sessionId, content, side){
         const chunk = decoder.decode(value);
         full += chunk;
 
-        const { visible, analysis:ana } = splitAnalysis(full);
-
-        bubble.textContent = visible;
-        analysis.textContent = ana;
-
         chat.scrollTop = chat.scrollHeight;
     }
-
-    const finalSplit = splitAnalysis(full);
-    return finalSplit.visible; // ❗只把可见内容传给对方
+    console.log(full);
+    return full;
 }
 
 async function step(){
@@ -141,7 +118,7 @@ async function step(){
 
     const replyVisible = await streamToBubble(currentSession, lastMessage, side);
 
-    lastMessage = replyVisible; // ❗对方只收到剥离后的内容
+    lastMessage = replyVisible;
     turn = turn === "A" ? "B" : "A";
 
     running = false;
@@ -163,12 +140,11 @@ nextBtn.onclick = () => {
     step();
 };
 
-// 清空聊天记录功能
 clearBtn.onclick = () => {
-    chat.innerHTML = ""; // 清空聊天记录
-    lastMessage = "你好，我们随便聊聊吧。"; // 重置消息
-    turn = "A"; // 重新从 A 开始
-    nextBtn.classList.add("hidden"); // 隐藏继续按钮
+    chat.innerHTML = ""; 
+    lastMessage = "你好，我们随便聊聊吧。";
+    turn = "A";
+    nextBtn.classList.add("hidden");
 };
 </script>
 

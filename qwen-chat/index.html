@@ -97,12 +97,14 @@ async function streamToBubble(sessionId, content, side){
         const {done, value} = await reader.read();
         if(done) break;
 
-        const chunk = decoder.decode(value);
+        const chunk = decoder.decode(value, { stream:true });
         full += chunk;
+
+        bubble.textContent = full;
 
         chat.scrollTop = chat.scrollHeight;
     }
-    console.log(full);
+
     return full;
 }
 

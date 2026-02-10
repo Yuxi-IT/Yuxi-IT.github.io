@@ -1,166 +1,175 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <title>Qwen Chat</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: "#3B82F6",
-            ai: "#F1F5F9",
-            user: "#3B82F6"
-          }
-        }
-      }
-    }
-  </script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>对话实验</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+.chat { height: 72vh; overflow-y: auto; }
+.row { display:flex; flex-direction:column; margin:8px 0; }
+.leftWrap { align-items:flex-start; }
+.rightWrap { align-items:flex-end; }
+.bubble {
+    max-width:70%;
+    padding:10px 14px;
+    border-radius:12px;
+    white-space:pre-wrap;
+}
+.left { background:#e0f2fe; }
+.right { background:#dcfce7; }
+.analysis {
+    font-size:12px;
+    color:#64748b;
+    margin-top:4px;
+    max-width:70%;
+}
+</style>
 </head>
 
-<body class="bg-gray-100 h-screen flex flex-col">
+<body class="bg-gray-100 p-6">
 
-<!-- 顶部 -->
-<header class="bg-white shadow px-4 py-3 flex items-center justify-between">
-  <h1 class="font-semibold text-lg text-primary">Qwen Chat</h1>
-  <span id="sessionInfo" class="text-xs text-gray-500"></span>
-</header>
+<h1 class="text-2xl font-bold mb-4">AI 对话实验</h1>
 
-<!-- 聊天区 -->
-<main id="chatList"
-  class="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin">
-</main>
+<div class="flex gap-4 mb-4">
+    <input id="sessionA" class="border p-2 w-full" placeholder="Session A ID"/>
+    <input id="sessionB" class="border p-2 w-full" placeholder="Session B ID"/>
+</div>
 
-<!-- 输入区 -->
-<footer class="bg-white border-t px-3 py-2 sticky bottom-0">
-  <div class="flex items-end gap-2">
-    <textarea
-      id="input"
-      rows="1"
-      placeholder="输入消息..."
-      class="flex-1 resize-none px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-    ></textarea>
-    <button
-      onclick="sendMessage()"
-      class="bg-primary text-white px-4 py-2 rounded-md"
-    >
-      发送
-    </button>
-  </div>
-</footer>
+<div class="flex items-center gap-4 mb-4">
+    <label><input type="checkbox" id="autoRun"> 自动运行</label>
+    <button id="startBtn" class="bg-blue-500 text-white px-4 py-2 rounded">开始实验</button>
+    <button id="nextBtn" class="bg-green-500 text-white px-4 py-2 rounded hidden">继续</button>
+    <button id="clearBtn" class="bg-red-500 text-white px-4 py-2 rounded">清空聊天记录</button>
+</div>
+
+<div id="chat" class="chat bg-white p-4 rounded shadow flex flex-col"></div>
 
 <script>
-  let baseUrl = "";
-  let auth = "";
-  let sessionId = null;
+const auth = new URLSearchParams(location.search).get("auth");
+const host = new URLSearchParams(location.search).get("host");
 
-  const chatList = document.getElementById("chatList");
-  const input = document.getElementById("input");
+let turn = "A";
+let lastMessage = "你好，我们随便聊聊吧。";
+let running = false;
 
-  /* ================= 工具 ================= */
+const chat = document.getElementById("chat");
+const autoRun = document.getElementById("autoRun");
+const nextBtn = document.getElementById("nextBtn");
+const clearBtn = document.getElementById("clearBtn");
 
-  function getQuery(name) {
-    return new URLSearchParams(location.search).get(name);
-  }
+function addMessageBubble(side){
+    const wrap = document.createElement("div");
+    wrap.className = `row ${side === 'left' ? 'leftWrap' : 'rightWrap'}`;
 
-  function scrollBottom() {
-    chatList.scrollTop = chatList.scrollHeight;
-  }
+    const bubble = document.createElement("div");
+    bubble.className = `bubble ${side}`;
 
-  function addBubble(text, role) {
-    const div = document.createElement("div");
-    div.className =
-      role === "user"
-        ? "flex justify-end"
-        : "flex justify-start";
+    const analysis = document.createElement("div");
+    analysis.className = "analysis";
 
-    div.innerHTML = `
-      <div class="
-        max-w-[80%]
-        whitespace-pre-wrap
-        px-4 py-2 rounded-lg text-sm
-        ${role === "user"
-          ? "bg-user text-white rounded-br-none"
-          : "bg-ai text-gray-800 rounded-bl-none"}
-      ">
-        ${text}
-      </div>
-    `;
-    chatList.appendChild(div);
-    scrollBottom();
-    return div.querySelector("div");
-  }
+    wrap.appendChild(bubble);
+    wrap.appendChild(analysis);
+    chat.appendChild(wrap);
 
-  /* ================= API ================= */
+    chat.scrollTop = chat.scrollHeight;
+    return { bubble, analysis };
+}
 
-  async function createSession() {
-    const res = await fetch(`${baseUrl}/Main/sessions`, {
-      method: "POST",
-      headers: { Auth: auth }
-    });
-    const json = await res.json();
-    sessionId = json.Id;
-    document.getElementById("sessionInfo").textContent =
-      `Session: ${sessionId}`;
-  }
+// 🔥 核心：拆分最后一行
+function splitAnalysis(text){
+    const lines = text.trim().split("\n");
+    if(lines.length <= 1) return { visible:text, analysis:"" };
 
-  async function sendMessage() {
-    const text = input.value.trim();
-    if (!text) return;
+    const lastLine = lines[lines.length - 1].trim();
 
-    input.value = "";
-    addBubble(text, "user");
+    if(lastLine.startsWith("[AI指数")){
+        return {
+            visible: lines.slice(0, -1).join("\n"),
+            analysis: lastLine
+        };
+    }
 
-    const aiBubble = addBubble("", "ai");
+    return { visible:text, analysis:"" };
+}
 
-    const res = await fetch(
-      `${baseUrl}/Main/sessions/${sessionId}/messages`,
-      {
-        method: "POST",
-        headers: {
-          "Auth": auth,
-          "Content-Type": "application/json"
+async function streamToBubble(sessionId, content, side){
+    const { bubble, analysis } = addMessageBubble(side);
+
+    const res = await fetch(`${host}/Main/sessions/${sessionId}/messages`, {
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            "Auth":auth
         },
-        body: JSON.stringify({ Content: text })
-      }
-    );
+        body: JSON.stringify({ Content: content })
+    });
 
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
-    let result = "";
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      result += decoder.decode(value, { stream: true });
-      aiBubble.textContent = result;
-      scrollBottom();
-    }
-  }
+    let full = "";
 
-  /* ================= 初始化 ================= */
+    while(true){
+        const {done, value} = await reader.read();
+        if(done) break;
 
-  window.onload = async () => {
-    baseUrl = getQuery("host") || "http://localhost:5000";
-    auth = getQuery("auth");
+        const chunk = decoder.decode(value);
+        full += chunk;
 
-    if (!auth) {
-      alert("请通过 ?auth=xxx 提供认证密钥");
-      return;
+        const { visible, analysis:ana } = splitAnalysis(full);
+
+        bubble.textContent = visible;
+        analysis.textContent = ana;
+
+        chat.scrollTop = chat.scrollHeight;
     }
 
-    await createSession();
-  };
+    const finalSplit = splitAnalysis(full);
+    return finalSplit.visible; // ❗只把可见内容传给对方
+}
 
-  /* 回车发送（手机友好） */
-  input.addEventListener("keydown", e => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
+async function step(){
+    if(running) return;
+    running = true;
+
+    const sessionA = document.getElementById("sessionA").value.trim();
+    const sessionB = document.getElementById("sessionB").value.trim();
+
+    const currentSession = turn === "A" ? sessionA : sessionB;
+    const side = turn === "A" ? "left" : "right";
+
+    const replyVisible = await streamToBubble(currentSession, lastMessage, side);
+
+    lastMessage = replyVisible; // ❗对方只收到剥离后的内容
+    turn = turn === "A" ? "B" : "A";
+
+    running = false;
+
+    if(autoRun.checked){
+        setTimeout(step, 800);
+    }else{
+        nextBtn.classList.remove("hidden");
     }
-  });
+}
+
+document.getElementById("startBtn").onclick = () => {
+    nextBtn.classList.add("hidden");
+    step();
+};
+
+nextBtn.onclick = () => {
+    nextBtn.classList.add("hidden");
+    step();
+};
+
+// 清空聊天记录功能
+clearBtn.onclick = () => {
+    chat.innerHTML = ""; // 清空聊天记录
+    lastMessage = "你好，我们随便聊聊吧。"; // 重置消息
+    turn = "A"; // 重新从 A 开始
+    nextBtn.classList.add("hidden"); // 隐藏继续按钮
+};
 </script>
 
 </body>

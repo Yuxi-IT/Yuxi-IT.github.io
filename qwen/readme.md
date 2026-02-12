@@ -1,6 +1,6 @@
 # FreeQwenAPI 合集
 
-### [QwenAPI](/api)
-### [QwenChat](/chat)
-### [QwenThink](/think)
-### [QwenDoc](/doc)
+### [QwenAPI](/qwen/api)
+### [QwenChat](/qwen/chat)
+### [QwenThink](/qwen/think)
+### [QwenDoc](/qwen/doc)
